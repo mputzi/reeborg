@@ -1,0 +1,21 @@
+**This needs to be edited**
+
+# Introduction #
+
+Reeborg's world is designed to be adapted to various programming languages (Javascript, Python, CoffeeScript ... any programming language that can be tranlated to javascrip client-side) and various human languages, with English as the first version and a French translation provided by its creator.
+
+This short guide indicates what needs to be done to provide a translation.
+
+
+# Details #
+
+There are three types of files that need to be translated:
+
+  1. world.html or its equivalent (e.g. monde.html in French).  This is the main app in one page
+  1. A language specific file containing robot instructions (and various  strings used in communicating with the user) are found in a javascript  file.  The name of that file uses a convention so that a code indicating  the programming language used as well as a standard two-letter code  indicating the human language are appended at the end of "reeborg".  Thus, the English javascript file is src/lang/reeborg\_en.js  whereas the French version would be src/lang/reeborg\_fr.js
+  1. In addition, lessons are translated as well.  Lessons are written in reStructuredFormat and use sphinx to translate into html using a custom template.
+
+In order to help keep translation in sync, **filenames use the same name as the English version**.  Thus, the lesson that introduces the `move()` command is move.rst even though the French name (for example) for the command is `avance()`.   However, these filenames are found in a directory that refers to the relevant languages (programming and human). For example, the English tutorial aimed at teachin Javascript to beginners are in directory
+docs/begin\_js\_en/
+
+Note that some lessons will refer to methods with English names as we dig deeper in the code, especially when adding new capabilities to the robot. This is unavoidable and can be explained by mentioning that the makers of Reeborg's world use English for internal development, etc., etc.  An example will be provided by the French tutorials.
