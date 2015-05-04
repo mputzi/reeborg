@@ -1,4 +1,5 @@
 /* Author: André Roberge
+   Translation: Martin Putzlocher
    License: MIT
  */
 
