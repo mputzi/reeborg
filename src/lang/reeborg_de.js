@@ -9,37 +9,35 @@
 var RUR = RUR || {};
 
 // required for lint.js
-var globals_ = "/*globals move, turn_left, UsedRobot, front_is_clear, right_is_clear, "+
-                    " is_facing_north, done, put, take, object_here, select_world, select_challenge,"+
-                    " token_here, has_token, write, at_goal, at_goal_orientation," +
-                    " build_wall, think, pause, repeat, sound," +
-                    "RUR, inspect, view_source, verify, say, library" +
-    // do not translate  nor include the following instructions; they help make rur-ple created programs *almost* compatible
-                    "put_beeper, pick_beeper, turn_off, on_beeper, carries_beepers, set_max_steps*/\n";
+var globals_ = "/*globals geh, dreh_links, GebrauchterBot, vorne_frei, rechts_frei, "+
+                    " schaut_nach_norden, fertig, leg, nimm, objekt_hier, waehle_welt, waehle_herausforderung,"+
+                    " marker_hier, hat_marker, schreibe, am_ziel, am_ziel_orientierung," +
+                    " bau_wand, denke, pause, wiederhole, sound," +
+                    "RUR, inspiziere, siehe_quelle, verifiziere, sag, bibliothek */\n";
 
-var move, turn_left, inspect, front_is_clear, right_is_clear, select_challenge,
-    is_facing_north, done, put, take, object_here, select_world, token_here,
-    has_token, write, at_goal, at_goal_orientation, build_wall, think,
-    pause, repeat, view_source, sound, UsedRobot,
-    set_max_steps, say, verify, ReeborgError;
+var geh, dreh_links, inspiziere, vorne_frei, rechts_frei, waehle_herausforderung,
+    schaut_nach_norden, fertig, leg, nimm, objekt_hier, waehle_welt, marker_hier,
+    hat_marker, schreibe, am_ziel, am_ziel_orientierung, bau_wand, denke,
+    pause, wiederhole, siehe_quelle, sound, GebrauchterBot,
+    setze_max_schritte, sag, verifiziere, ReeborgError;
 
-// do not translate the following three instructions; they are included only
+// do not translate the following instructions; they are included only
 // so that most basic programs from rur-ple would run "as-is"
 var put_beeper, pick_beeper, turn_off, on_beeper, carries_beepers, next_to_a_beeper, set_delay, facing_north;
 
-RUR.verify = function(test) {
-    var reeborg, robots, world, tokens, orientation;
-    var east, East, west, West, north, North, south, South;
+RUR.verifiziere = function(test) {
+    var reeborg, roboter, welt, marker, orientierung;
+    var ost, Osten, west, Westen, nord, Norden, sued, Sueden;
     var js_test;
-    east = East = RUR.EAST;
-    west = West = RUR.WEST;
-    north = North = RUR.NORTH;
-    south = South = RUR.SOUTH;
-    world = RUR.current_world;
-    robots = world.robots;
+    ost = Osten = RUR.EAST;
+    west = Westen = RUR.WEST;
+    nord = Norden = RUR.NORTH;
+    sued = Sueden = RUR.SOUTH;
+    welt = RUR.current_world;
+    roboter = world.robots;
     reeborg = robots[0];
-    tokens = reeborg.tokens;
-    orientation = reeborg.orientation;
+    marker = reeborg.tokens;
+    orientierung = reeborg.orientation;
 
     // if language is Python ... require spaces around logical operators to simplify
     js_test = test.replace(/ and /g, '&&');
@@ -52,40 +50,42 @@ RUR.verify = function(test) {
     if (eval(js_test)){ // jshint ignore:line
         return;
     }
-    throw ReeborgError("Failed: <br>"+test);
+    throw ReeborgError("Fehler: <br>"+test);
 };
 
 
 RUR.reset_definitions = function () {
+	// defined above
+	verifiziere = RUR.verifiziere;
     // RUR._x_ defined in commands.js
-    at_goal = RUR._at_goal_;
-    at_goal_orientation = RUR._at_goal_orientation_;
-    build_wall = RUR._build_wall_;
-    front_is_clear = RUR._front_is_clear_;
-    has_token = RUR._has_token_;
-    is_facing_north = RUR._is_facing_north_;
-    move = RUR._move_;
-    put = RUR._put_;
-    token_here = RUR._token_here_;
-    right_is_clear = RUR._right_is_clear_;
-    object_here = RUR._object_here_;
-    take = RUR._take_;
-    turn_left = RUR._turn_left_;
-    repeat = RUR._repeat_;
-    set_max_steps = RUR._set_max_steps_;
+    am_ziel = RUR._at_goal_;
+    am_ziel_orientierung = RUR._at_goal_orientation_;
+    bau_wand = RUR._build_wall_;
+    vorne_frei = RUR._front_is_clear_;
+    hat_marker = RUR._has_token_;
+    schaut_nach_norden = RUR._is_facing_north_;
+    geh = RUR._move_;
+    leg = RUR._put_;
+    marker_hier = RUR._token_here_;
+    rechts_frei = RUR._right_is_clear_;
+    objekt_hier = RUR._object_here_;
+    nimm = RUR._take_;
+    dreh_links = RUR._turn_left_;
+    wiederhole = RUR._repeat_;
+    setze_max_schritte = RUR._set_max_steps_;
     // defined in rur_utils.js
-    inspect = RUR.inspect;
-    view_source = RUR.view_source;
+    inspiziere = RUR.inspect;
+    siehe_quelle = RUR.view_source;
     // defined in control.js
-    write = RUR.control.write;
-    done = RUR.control.done;
+    schreibe = RUR.control.write;
+    fertig = RUR.control.done;
     sound = RUR.control.sound;
-    think = RUR.control.think;
-    say = RUR.control.say;
+    denke = RUR.control.think;
+    sag = RUR.control.say;
     pause = RUR.control.pause;
     // defined in ui.js
-    select_world = RUR.ui.select_world;
-    select_challenge = RUR.ui.select_challenge;
+    waehle_welt = RUR.ui.select_world;
+    waehle_herausforderung = RUR.ui.select_challenge;
 
 
     UsedRobot = function (x, y, orientation, tokens)  {
